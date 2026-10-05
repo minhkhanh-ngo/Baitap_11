@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 300">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2a6b"/><stop offset="0.6" stop-color="#c0392b"/><stop offset="1" stop-color="#f39c12"/></linearGradient></defs>
+<rect width="220" height="300" fill="url(#g)"/>
+<circle cx="170" cy="85" r="22" fill="#fff3b0" opacity="0.9"/>
+<g fill="#10142e"><rect x="0" y="200" width="30" height="100"/><rect x="26" y="170" width="28" height="130"/><rect x="50" y="210" width="34" height="90"/><rect x="140" y="185" width="30" height="115"/><rect x="166" y="215" width="26" height="85"/><rect x="188" y="175" width="32" height="125"/></g>
+<path d="M110 118 L62 215 L110 198 L158 215 Z" fill="#e74c3c" stroke="#7b1d14" stroke-width="3"/>
+<circle cx="110" cy="112" r="14" fill="#f5cba7"/>
+<path d="M95 108 Q110 96 125 108 L125 114 L95 114 Z" fill="#1b2a6b"/>
+<rect x="98" y="124" width="24" height="46" rx="6" fill="#2980b9"/>
+<path d="M98 130 L72 108 L78 100 L100 118 Z M122 130 L148 108 L142 100 L120 118 Z" fill="#2980b9"/>
+<rect x="100" y="168" width="9" height="34" fill="#1b2a6b"/><rect x="111" y="168" width="9" height="34" fill="#1b2a6b"/>
+<polygon points="110,136 114,146 125,146 116,152 120,162 110,156 100,162 104,152 95,146 106,146" fill="#f1c40f" transform="translate(0,-4) scale(1)"/>
+</svg>
