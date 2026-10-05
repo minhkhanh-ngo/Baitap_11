@@ -145,3 +145,6 @@ UPDATE Videos SET Price = 250000, Stock = 15 WHERE VideoId = 'V002' AND Price = 
 UPDATE Videos SET Price =  99000, Stock = 30 WHERE VideoId = 'V003' AND Price = 0;
 UPDATE Videos SET Price = 120000, Stock =  5 WHERE VideoId = 'V004' AND Price = 0;
 GO
+
+UPDATE Videos SET Poster = '/images/' + LOWER(VideoId) + '.svg' WHERE VideoId IN ('V001','V002','V003','V004');
+GO
