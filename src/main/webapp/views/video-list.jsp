@@ -36,6 +36,7 @@
                         </h4>
                         <p style="margin: auto 0 4px 0; color: #666; font-size: 13px;">Lượt xem: ${v.views}</p>
                         <p style="margin: 0 0 8px 0; color: #dc3545; font-weight: bold;"><fmt:formatNumber value="${v.price}" pattern="#,##0"/> đ</p>
+                        <a class="btn btn-sm btn-outline-secondary w-100 mb-2" href="${pageContext.request.contextPath}/video?id=${v.videoId}">Xem chi tiết</a>
                         <c:choose>
                             <c:when test="${v.stock > 0}">
                                 <form action="${pageContext.request.contextPath}/cart/add" method="post" style="margin: 0;">

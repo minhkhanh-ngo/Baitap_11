@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Order_24110248 {
     public static final String PAYMENT_COD = "COD";
-    public static final String STATUS_PENDING = "Chờ xác nhận";
+    public static final String STATUS_PENDING = OrderStatus_24110248.NEW.getLabel();
 
     private int orderId;
     private String username;
@@ -40,6 +40,7 @@ public class Order_24110248 {
     public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+    public OrderStatus_24110248 getStatusEnum() { return OrderStatus_24110248.fromLabel(status); }
     public Date getCreatedDate() { return createdDate; }
     public void setCreatedDate(Date createdDate) { this.createdDate = createdDate; }
     public List<OrderDetail_24110248> getDetails() { return details; }

@@ -4,6 +4,7 @@ import vn.iotstar.giuaki.model.Cart_24110248;
 import vn.iotstar.giuaki.model.CartItem_24110248;
 import vn.iotstar.giuaki.model.Order_24110248;
 import vn.iotstar.giuaki.model.OrderDetail_24110248;
+import vn.iotstar.giuaki.model.OrderStatus_24110248;
 import vn.iotstar.giuaki.services.IOrderService_24110248;
 import vn.iotstar.giuaki.services.OrderException_24110248;
 import vn.iotstar.giuaki.util.DBConnection_24110248;
@@ -12,7 +13,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderServiceImpl_24110248 implements IOrderService_24110248 {
 
@@ -188,5 +192,77 @@ public class OrderServiceImpl_24110248 implements IOrderService_24110248 {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public List<Order_24110248> findByUser(String username, OrderStatus_24110248 status) {
+        StringBuilder sql = new StringBuilder(
+                "SELECT o.OrderId, o.Username, o.ReceiverName, o.Phone, o.Address, o.Note, o.TotalAmount, "
+                + "o.PaymentMethod, o.Status, o.CreatedDate, "
+                + "d.VideoId, v.Title, d.Quantity, d.UnitPrice "
+                + "FROM Orders o "
+                + "LEFT JOIN OrderDetails d ON d.OrderId = o.OrderId "
+                + "LEFT JOIN Videos v ON v.VideoId = d.VideoId "
+                + "WHERE o.Username = ? ");
+        if (status != null) sql.append("AND o.Status = ? ");
+        sql.append("ORDER BY o.CreatedDate DESC, o.OrderId DESC, d.OrderDetailId");
+
+        Map<Integer, Order_24110248> result = new LinkedHashMap<>();
+        try (Connection conn = DBConnection_24110248.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            ps.setString(1, username);
+            if (status != null) ps.setString(2, status.getLabel());
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("OrderId");
+                    Order_24110248 o = result.get(id);
+                    if (o == null) {
+                        o = new Order_24110248();
+                        o.setOrderId(id);
+                        o.setUsername(rs.getString("Username"));
+                        o.setReceiverName(rs.getString("ReceiverName"));
+                        o.setPhone(rs.getString("Phone"));
+                        o.setAddress(rs.getString("Address"));
+                        o.setNote(rs.getString("Note"));
+                        o.setTotalAmount(rs.getLong("TotalAmount"));
+                        o.setPaymentMethod(rs.getString("PaymentMethod"));
+                        o.setStatus(rs.getString("Status"));
+                        o.setCreatedDate(rs.getTimestamp("CreatedDate"));
+                        result.put(id, o);
+                    }
+                    String videoId = rs.getString("VideoId");
+                    if (videoId != null) {
+                        OrderDetail_24110248 d = new OrderDetail_24110248();
+                        d.setVideoId(videoId);
+                        d.setTitle(rs.getString("Title"));
+                        d.setQuantity(rs.getInt("Quantity"));
+                        d.setUnitPrice(rs.getLong("UnitPrice"));
+                        o.getDetails().add(d);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>(result.values());
+    }
+
+    @Override
+    public Map<String, Integer> countByStatus(String username) {
+        Map<String, Integer> counts = new HashMap<>();
+        String sql = "SELECT Status, COUNT(*) AS Total FROM Orders WHERE Username = ? GROUP BY Status";
+        try (Connection conn = DBConnection_24110248.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String st = rs.getString("Status");
+                    counts.put(st == null ? "" : st.trim(), rs.getInt("Total"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return counts;
     }
 }

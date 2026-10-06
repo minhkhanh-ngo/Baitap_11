@@ -2,6 +2,7 @@ package vn.iotstar.giuaki.controller;
 
 import vn.iotstar.giuaki.dao.UserDAO_24110248;
 import vn.iotstar.giuaki.model.User_24110248;
+import vn.iotstar.giuaki.util.CartStore_24110248;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -25,7 +26,7 @@ public class LoginController_24110248 extends HttpServlet {
         if (account != null) {
             HttpSession session = req.getSession();
             session.setAttribute("loggedInUser", account);
-            session.removeAttribute("cart"); // mỗi lần đăng nhập bắt đầu với giỏ hàng trống
+            session.setAttribute(CartController_24110248.CART_KEY, CartStore_24110248.get(account.getUsername()));
 
             if (account.isAdmin()) {
                 resp.sendRedirect(req.getContextPath() + "/admin/home");

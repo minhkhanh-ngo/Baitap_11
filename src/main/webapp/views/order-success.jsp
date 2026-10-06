@@ -19,7 +19,7 @@
         </c:if>
         <p class="mb-1"><strong>Ngày đặt:</strong> <fmt:formatDate value="${order.createdDate}" pattern="dd/MM/yyyy HH:mm"/></p>
         <p class="mb-1"><strong>Thanh toán:</strong> Thanh toán khi nhận hàng (${order.paymentMethod})</p>
-        <p class="mb-1"><strong>Trạng thái:</strong> <span class="badge bg-warning text-dark"><c:out value="${order.status}"/></span></p>
+        <p class="mb-1"><strong>Trạng thái:</strong> <span class="badge text-bg-${empty order.statusEnum ? 'secondary' : order.statusEnum.badge}"><c:out value="${order.status}"/></span></p>
     </div>
     <div class="col-md-7">
         <h5>Chi tiết đơn hàng</h5>
@@ -48,5 +48,6 @@
 </div>
 
 <div class="text-center mt-3">
+    <a class="btn btn-outline-primary me-2" href="${pageContext.request.contextPath}/orders/detail?id=${order.orderId}">Xem đơn hàng</a>
     <a class="btn btn-primary" href="${pageContext.request.contextPath}/user/videos">Tiếp tục mua sắm</a>
 </div>

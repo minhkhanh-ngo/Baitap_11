@@ -28,6 +28,7 @@
                             Giỏ hàng
                             <span class="badge rounded-pill bg-danger">${empty sessionScope.cart ? 0 : sessionScope.cart.totalQuantity}</span>
                         </a>
+                        <a class="nav-link px-3" href="${pageContext.request.contextPath}/orders">Đơn hàng</a>
                         <!-- Chỉ Admin mới thấy nút Trang Quản Trị -->
                         <c:if test="${sessionScope.loggedInUser.admin == true}">
                             <a class="nav-link text-info px-3 fw-bold" href="${pageContext.request.contextPath}/admin/home">Trang Quản Trị</a>

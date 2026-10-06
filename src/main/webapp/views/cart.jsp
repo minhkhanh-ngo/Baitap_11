@@ -44,8 +44,9 @@
                             <form action="${pageContext.request.contextPath}/cart/update" method="post" class="d-flex gap-2 justify-content-center">
                                 <input type="hidden" name="videoId" value="<c:out value='${item.videoId}'/>">
                                 <input type="number" name="quantity" value="${item.quantity}" min="1" max="${item.maxQuantity}"
-                                       class="form-control form-control-sm" style="width:80px" required>
-                                <button type="submit" class="btn btn-sm btn-outline-primary">Cập nhật</button>
+                                       class="form-control form-control-sm" style="width:80px" required
+                                       onchange="this.form.requestSubmit()"
+                                       onkeydown="if(event.key==='Enter'){event.preventDefault();this.form.requestSubmit();}">
                             </form>
                         </td>
                         <td class="text-end fw-semibold"><fmt:formatNumber value="${item.subtotal}" pattern="#,##0"/> đ</td>
@@ -69,12 +70,12 @@
             </table>
         </div>
 
-        <div class="d-flex justify-content-between flex-wrap gap-2 mt-3">
-            <div class="d-flex gap-2">
-                <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/user/videos">← Tiếp tục mua sắm</a>
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-3">
+            <div class="d-flex align-items-center gap-2">
+                <a class="btn btn-sm btn-outline-secondary text-nowrap" style="width:170px" href="${pageContext.request.contextPath}/user/videos">← Tiếp tục mua sắm</a>
                 <form action="${pageContext.request.contextPath}/cart/clear" method="post"
                       onsubmit="return confirm('Xóa toàn bộ giỏ hàng?');">
-                    <button type="submit" class="btn btn-outline-danger">Xóa toàn bộ giỏ</button>
+                    <button type="submit" class="btn btn-sm btn-outline-danger text-nowrap" style="width:170px">Xóa toàn bộ giỏ</button>
                 </form>
             </div>
             <a class="btn btn-success btn-lg" href="${pageContext.request.contextPath}/checkout">Thanh toán (COD) →</a>

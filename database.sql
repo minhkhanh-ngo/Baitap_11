@@ -78,7 +78,7 @@ CREATE TABLE Orders (
                         Note          NVARCHAR(500) NULL,
                         TotalAmount   DECIMAL(18,0) NOT NULL,
                         PaymentMethod NVARCHAR(20)  NOT NULL DEFAULT 'COD',
-                        Status        NVARCHAR(30)  NOT NULL DEFAULT N'Chờ xác nhận',
+                        Status        NVARCHAR(30)  NOT NULL DEFAULT N'Đơn hàng mới',
                         CreatedDate   DATETIME      NOT NULL DEFAULT GETDATE()
 );
 GO
@@ -147,4 +147,16 @@ UPDATE Videos SET Price = 120000, Stock =  5 WHERE VideoId = 'V004' AND Price = 
 GO
 
 UPDATE Videos SET Poster = '/images/' + LOWER(VideoId) + '.svg' WHERE VideoId IN ('V001','V002','V003','V004');
+GO
+
+DECLARE @df NVARCHAR(200);
+SELECT @df = dc.name
+FROM sys.default_constraints dc
+         JOIN sys.columns c ON c.object_id = dc.parent_object_id AND c.column_id = dc.parent_column_id
+WHERE dc.parent_object_id = OBJECT_ID('Orders') AND c.name = 'Status';
+IF @df IS NOT NULL EXEC('ALTER TABLE Orders DROP CONSTRAINT [' + @df + ']');
+ALTER TABLE Orders ADD CONSTRAINT DF_Orders_Status DEFAULT N'Đơn hàng mới' FOR Status;
+GO
+
+UPDATE Orders SET Status = N'Đơn hàng mới' WHERE Status = N'Chờ xác nhận';
 GO
